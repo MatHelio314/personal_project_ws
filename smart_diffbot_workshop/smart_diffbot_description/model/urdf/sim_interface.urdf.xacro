@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+
+  <!-- Simulation ros2_control interface -->
+  <ros2_control name="IgnitionSystem" type="system">
+    <hardware>
+      <plugin>ign_ros2_control/IgnitionSystem</plugin>
+    </hardware>
+
+    <joint name="left_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-5</param>
+        <param name="max">5</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <joint name="right_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-5</param>
+        <param name="max">5</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+
+   <!-- Gazebo plugins -->
+   <gazebo>
+
+    <!-- ros2_control -->
+    <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+      <parameters>$(find smart_diffbot_control)/config/controller_params.yaml</parameters>
+    </plugin>
+
+    <!-- <gazebo reference="imu_link">
+      <gravity>true</gravity>
+      <sensor name="imu_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>100</update_rate>
+        <visualize>true</visualize>
+        <topic>__default_topic__</topic>
+        <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+          <topicName>imu</topicName>
+          <bodyName>imu_link</bodyName>
+          <updateRateHZ>10.0</updateRateHZ>
+          <gaussianNoise>0.0</gaussianNoise>
+          <xyzOffset>0 0 0</xyzOffset>
+          <rpyOffset>0 0 0</rpyOffset>
+          <frameName>imu_link</frameName>
+          <initialOrientationAsReference>false</initialOrientationAsReference>
+        </plugin>
+        <pose>0 0 0 0 0 0</pose>
+      </sensor>
+    </gazebo> -->
+
+    <!-- sensors -->
+    <!-- <plugin filename="ignition-gazebo-sensors-system"  name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin> -->
+
+    <!-- navsat -->
+    <!-- <plugin filename="ignition-gazebo-navsat-system" name="ignition::gazebo::systems::NavSat"/> -->
+
+    <!-- IMU -->
+    <plugin filename="libignition-gazebo-imu-system.so" name="ignition::gazebo::systems::Imu"/>
+
+  </gazebo>
+
+  
+  <!-- Sensor simulation -->
+  <!-- <gazebo reference="camera_link">
+    <sensor name="camera" type="camera">       
+      <always_on>1</always_on>
+      <update_rate>15</update_rate>
+      <visualize>true</visualize>
+      <topic>camera/image_raw</topic>
+      <ignition_frame_id>camera_link</ignition_frame_id>
+    </sensor>
+  </gazebo> -->
+
+  <!-- <gazebo reference="navsat_link">
+    <sensor name="navsat" type="navsat">
+      <always_on>1</always_on>
+      <update_rate>1</update_rate>
+      <topic>navsat/fix</topic>
+      <ignition_frame_id>navsat_link</ignition_frame_id>
+    </sensor>
+  </gazebo> -->
+
+  <gazebo reference="imu_link">
+    <sensor name="imu" type="imu">
+      <always_on>1</always_on>
+      <update_rate>15</update_rate>
+      <visualize>false</visualize>
+      <topic>imu/data</topic>
+      <ignition_frame_id>imu_link</ignition_frame_id>
+    </sensor>
+  </gazebo>
+
+  <!-- No friction on fixed caster wheel -->
+  <!-- <gazebo reference="caster">
+    <mu1>0.0</mu1>   
+    <mu2>0.0</mu2>
+  </gazebo> -->
+
+</robot>

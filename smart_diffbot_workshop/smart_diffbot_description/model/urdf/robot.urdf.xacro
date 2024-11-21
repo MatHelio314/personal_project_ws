@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<robot name="smart_diffbot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Arguments -->
+  <xacro:arg name="sim" default="true"/>
+
+  <!-- Utils -->
+  <xacro:include filename="$(find smart_diffbot_description)/model/urdf/utils.urdf.xacro" />
+
+  <!-- Robot model -->
+  <xacro:include filename="$(find smart_diffbot_description)/model/urdf/model.urdf.xacro" />
+
+  <!-- Simulation interface -->
+  <!-- <xacro:if value="$(arg sim)"> -->
+  <!-- <xacro:include filename="$(find smart_diffbot_description)/model/urdf/sim_interface.urdf.xacro" /> -->
+  <!-- </xacro:if> -->
+  
+  <!-- Hardware interface -->
+  <!-- <xacro:unless value="$(arg sim)"> -->
+  <xacro:include filename="$(find smart_diffbot_description)/model/urdf/hardware_interface.urdf.xacro" />
+  <!-- </xacro:unless> -->
+
+</robot>
